@@ -3,9 +3,9 @@
 namespace Anthill\Bitmap\Tests;
 
 
-use PHPUnit_Framework_TestCase;
 use Anthill\Bitmap\BitMapArray;
 use Anthill\Bitmap\BitmapOffset;
+use PHPUnit_Framework_TestCase;
 
 class BitMapArrayTest extends PHPUnit_Framework_TestCase
 {
@@ -96,6 +96,29 @@ class BitMapArrayTest extends PHPUnit_Framework_TestCase
     {
         $bitArray = $this->getBitMapArray($data, $chunk);
         $this->assertSame($expected, $bitArray->del($offset)->toArray());
+    }
+
+    public function testOffsets()
+    {
+        $chunk = mt_rand(2, 10);
+        $bitArray = $this->getBitMapArray([], $chunk);
+        $expected = [];
+        for ($i = 0; $i <= 10; $i++) {
+            $z = mt_rand(1, 10000000);
+            $expected[$z] = 1;
+            $bitArray->add($z);
+        }
+        $actualAsArray = $bitArray->toArray();
+        $actual = $bitArray->offsets();
+        $expected = array_keys($expected);
+        sort($expected);
+        sort($actual);
+
+        $this->assertSame($expected, $actual);
+
+        $actual = $this->getBitMapArray($actualAsArray, $chunk)->offsets();
+        sort($actual);
+        $this->assertSame($expected, $actual);
     }
 
 }

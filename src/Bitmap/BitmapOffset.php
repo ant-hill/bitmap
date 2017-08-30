@@ -46,4 +46,12 @@ class BitmapOffset
 
         return $chunkOffset;
     }
+
+    /**
+     * @return int
+     */
+    public function getChunkSize()
+    {
+        return $this->chunkSize;
+    }
 }

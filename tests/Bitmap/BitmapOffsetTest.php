@@ -3,11 +3,30 @@
 namespace Anthill\Bitmap\Tests;
 
 
-use PHPUnit_Framework_TestCase;
 use Anthill\Bitmap\BitmapOffset;
+use PHPUnit_Framework_TestCase;
 
 class BitmapOffsetTest extends PHPUnit_Framework_TestCase
 {
+    public function getterProvider()
+    {
+        return [
+            [1],
+            [2],
+            [100500],
+        ];
+    }
+
+    /**
+     * @dataProvider getterProvider
+     * @param $chunkSize
+     */
+    public function testGetter($chunkSize)
+    {
+        $class = new BitmapOffset($chunkSize);
+        $this->assertSame($chunkSize, $class->getChunkSize());
+    }
+
     public function offsetProvider()
     {
         return [

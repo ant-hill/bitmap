@@ -94,6 +94,27 @@ class BitMapArray
     /**
      * @return array
      */
+    public function offsets()
+    {
+        $size = $this->bitMapOffset->getChunkSize();
+        $offsets = [];
+        foreach ($this->data as $k => $offset) {
+            if ($offset === 0) {
+                continue;
+            }
+            for ($i = 1; $i <= $size; $i++) {
+                if (BitHelper::has($i, $offset)) {
+                    $offsets[] = ($k * $size) + $i;
+                }
+            }
+        }
+
+        return $offsets;
+    }
+
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return $this->data;
